@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiAutores.DTOs;
@@ -9,7 +11,7 @@ namespace WebApiAutores.Controllers
 {
   [ApiController]
   [Route("api/autores")] // o puede ser api/[controller]
-  //[Authorize]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
   public class AutoresController : ControllerBase
   {
     private readonly ApplicationDbContext context;
@@ -37,7 +39,8 @@ namespace WebApiAutores.Controllers
     [HttpGet] // api/autores
     //[HttpGet("listado")] // se puede tener 2 rutas api/autores/listado
     //[HttpGet("/listado")] // /listado
-    //[Authorize]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [AllowAnonymous]
     public async Task<ActionResult<List<AutorDTO>>> Get()
     {
       //throw new NotImplementedException();
