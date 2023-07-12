@@ -130,6 +130,8 @@ namespace WebApiAutores
       services.AddTransient<GeneradorEnlaces>();
       services.AddTransient<HATEOASAutorFilterAttribute>();
       services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+      services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsights:ConnectionString"]);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -140,14 +142,15 @@ namespace WebApiAutores
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-          c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIAutores v1");
-          c.SwaggerEndpoint("/swagger/v2/swagger.json", "WebAPIAutores v2");
-          c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-        });
       }
+
+      app.UseSwagger();
+      app.UseSwaggerUI(c =>
+      {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIAutores v1");
+        c.SwaggerEndpoint("/swagger/v2/swagger.json", "WebAPIAutores v2");
+        c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+      });
 
       app.UseHttpsRedirection();
       app.UseRouting();
