@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PeliculasAPI.Servicios;
 
 namespace PeliculasAPI
 {
@@ -15,12 +16,16 @@ namespace PeliculasAPI
         {
             services.AddAutoMapper(typeof(Startup));
 
+            //services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosAzure>();
+            services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
+            services.AddHttpContextAccessor();
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddEndpointsApiExplorer();
         }
 
@@ -30,6 +35,8 @@ namespace PeliculasAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles(); // Para poder acceder a la carpeta wwwroot
 
             app.UseHttpsRedirection();
             app.UseRouting();

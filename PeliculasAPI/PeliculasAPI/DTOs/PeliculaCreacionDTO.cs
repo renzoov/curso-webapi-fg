@@ -1,11 +1,12 @@
 ﻿using PeliculasAPI.Validaciones;
+using System.ComponentModel.DataAnnotations;
 
 namespace PeliculasAPI.DTOs
 {
-    public class ActorCreacionDTO : ActorPatchDTO
+    public class PeliculaCreacionDTO : PeliculaPatchDTO
     {
         [PesoArchivoValidacion(PesoMaximoEnMegaBytes: 4)]
         [TipoArchivoValidacion(grupoTipoArchivo: GrupoTipoArchivo.Imagen)]
-        public IFormFile Foto { get; set; }
+        public IFormFile Poster { get; set; }
     }
 }
